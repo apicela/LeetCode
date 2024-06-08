@@ -4,43 +4,48 @@ public class LeetCode2 {
 
     public static void main(String[] args) {
 
-        ListNode l = new ListNode(2, new ListNode(4, new ListNode(3, null)));
-        ListNode k = new ListNode(5, new ListNode(6, new ListNode(4, null)));
+        ListNode l = new ListNode(9,
+                new ListNode(9,
+                        new ListNode(9,
+                                new ListNode(9,
+                                        new ListNode(9,
+                                                new ListNode(9,
+                                                        new ListNode(9, null)))))));
+
+// Lista k: [9, 9, 9, 9]
+        ListNode k = new ListNode(9,
+                new ListNode(9,
+                        new ListNode(9,
+                                new ListNode(9, null))));
         LeetCode2.addTwoNumbers(l,k);
     }
 
-
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode nodeToReturn = new ListNode();
-        ListNode listNode = new ListNode();
+        ListNode listNodeTemp = new ListNode();
+        ListNode nodeToReturn = listNodeTemp;
 
-        String l1Value = "", l2Value = "";
+        int carry = 0;
+        while(l1 != null || l2 != null || carry != 0){
+            int val1 =  (l1 != null) ? l1.val : 0;
+            int val2 = (l2 != null) ? l2.val : 0;
+            int sum = val1 + val2 + carry;
+            listNodeTemp.val = sum % 10;
 
-        do {
-            l1Value = l1.val + l1Value;
-            l1 = l1.next;
-        } while (l1 != null);
+            if( (sum / 10) != 0 ) carry = 1;
+            else carry = 0;
+            l1 = (l1 != null) ? l1.next : null;
+            l2 = (l2 != null) ? l2.next : null;
+            if(l1 != null || l2 != null || carry != 0){
+                listNodeTemp.next = new ListNode();
+                listNodeTemp = listNodeTemp.next;
+            }
 
-        do {
-            l2Value = l2.val + l2Value;
-            l2 = l2.next;
-        } while (l2 != null);
-
-        BigInteger sum = new BigInteger(l1Value).add( new BigInteger(l2Value));
-        String sumAsString =  String.valueOf(sum);
-        int sumLength = sumAsString.length();
-
-        for(int i = sumLength - 1; i >=0; i--){
-            if(i == sumLength - 1) nodeToReturn = listNode;
-            listNode.val = sumAsString.charAt(i) - '0';
-            System.out.println(listNode.val + " i: " + i);
-            if(i == 0) break;
-            listNode.next = new ListNode();
-            listNode = listNode.next;
         }
-        System.out.println(nodeToReturn.stringify());
+//        System.out.println(nodeToReturn.stringify());
         return nodeToReturn;
     }
+
+
     static class ListNode {
         int val;
         ListNode next;

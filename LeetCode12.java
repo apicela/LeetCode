@@ -59,34 +59,17 @@ Explanation:
 public class LeetCode12 {
     char[] alphabet = {'M', 'D', 'C','L', 'X', 'V', 'I'};
     int[] values =    {1000,500,100,50,10,5,1};
-//    HashMap<Integer, String> hashMap = new HashMap<>(){{
-//        put(1000, "M");
-//        put(500, "D");
-//        put(100, "C");
-//        put(50, "L");
-//        put(10, "X");
-//        put(5, "V");
-//        put(1, "I");
-//        put(900, "CM");
-//        put(90, "XC");
-//        put(9, "IX");
-//        put(4, "IV");
-//    }};
+
     public static void main(String[] args) {
 
         var leet = createInstance();
         int num = 3749; // 48 58 41
 
-        /*
-        3749
-                    Output
-            "MMMDMCCVLIV"
-            Expected
-            "MMMDCCXLIX"
-         */
         System.out.println( leet.intToRoman(num));
 
     }
+
+
 
     public String intToRoman(int num) {
         StringBuilder sb = new StringBuilder();
@@ -94,23 +77,21 @@ public class LeetCode12 {
         int i = 0;
         do{
             while((num / values[i]) >= 1){
-                System.out.printf("num : %d || i: %d || alphabet: %s\n",num, i, alphabet[i]);
                 sb.append(alphabet[i]);
                 num-=values[i];
-                if(num % values[i] < 10) verify(num,sb);
-            } // é 58, ali dá 50 if ( 58 / 50) => 1
-            if(i+2 < values.length && (num / (values[i] - values[i+2])) >= 1){
-                System.out.printf("num : %d || i: %d || alphabet1: %s alphabet2: %s\n",num, i, alphabet[i+2], alphabet[i]);
-                sb.append(alphabet[i+2]);
-                sb.append(alphabet[i]);
-                num-=values[i] - values[i+2];
-                if(num % values[i] < 10) verify(num,sb);
-            } else if(i + 1< values.length  && (num / (values[i] - values[i+1])) >= 1 && (values[i] - values[i+1]) != 50){
-                System.out.printf("num : %d || i: %d || alphabet1: %s alphabet2: %s\n",num, i, alphabet[i+1], alphabet[i]);
+                if(num < 10) num =  verify(num,sb);
+            }
+            if(i + 1< values.length  && (num / (values[i] - values[i+1])) >= 1 && (values[i] - values[i+1]) != values[i+1]){
                 sb.append(alphabet[i+1]);
                 sb.append(alphabet[i]);
                 num-=values[i] - values[i+1];
-                if(num % values[i] < 10) verify(num,sb);
+                if(num < 10) num =  verify(num,sb);
+            }
+            else if(i+2 < values.length && (num / (values[i] - values[i+2])) >= 1 ){
+                sb.append(alphabet[i+2]);
+                sb.append(alphabet[i]);
+                num-=values[i] - values[i+2];
+                if(num < 10) num =  verify(num,sb);
             }
 
             i++;
@@ -118,14 +99,16 @@ public class LeetCode12 {
         return sb.toString();
     }
 
-    void verify(int num, StringBuilder sb){
+    int verify(int num, StringBuilder sb){
         int j = 5;
         if(num == 9){
             sb.append("IX");
-            return;
+            num-=9;
+            return num;
         } else if (num == 4){
             sb.append("IV");
-            return;
+            num-=4;
+            return num;
         }
         do {
             while((num / values[j]) >= 1){
@@ -139,7 +122,9 @@ public class LeetCode12 {
             j++;
             if(j >= values.length) break;
         } while(num > 0);
+        return num;
     }
+
     private static LeetCode12 createInstance() {
         return new LeetCode12();
     }

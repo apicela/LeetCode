@@ -36,11 +36,15 @@ func ProductExceptSelf(nums []int) []int {
 		left[i] = left[i-1] * nums[i]
 		right[arrSize-1-i] = right[arrSize-i] * nums[arrSize-i-1]
 	}
-	fmt.Println(left)
-	fmt.Println(right)
 
+	response[0] = right[1]
+	response[arrSize-1] = left[arrSize-1-1]
 	for i := 1; i < arrSize-1; i++ {
 		response[i] = left[i-1] * right[i+1]
 	}
+	fmt.Println("entrada: ", nums)
+	fmt.Println("left: ", left)
+	fmt.Println("right: ", right)
+	fmt.Println("response: ", response)
 	return response
 }

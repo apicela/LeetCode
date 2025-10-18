@@ -26,9 +26,16 @@ func (pq PriorityQueue) Len() int { return len(pq.items) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
 	if pq.heapType == MinHeap {
+		if pq.items[i].Priority == pq.items[j].Priority {
+			return pq.items[i].Value.(int) < pq.items[j].Value.(int)
+		}
 		return pq.items[i].Priority < pq.items[j].Priority
+	} else { // MaxHeap
+		if pq.items[i].Priority == pq.items[j].Priority {
+			return pq.items[i].Value.(int) < pq.items[j].Value.(int)
+		}
+		return pq.items[i].Priority > pq.items[j].Priority
 	}
-	return pq.items[i].Priority > pq.items[j].Priority
 }
 
 func (pq PriorityQueue) Swap(i, j int) {
@@ -65,7 +72,7 @@ func (pq *PriorityQueue) PushItem(value any, priority int) {
 	heap.Push(pq, &Item{Value: value, Priority: priority})
 }
 
-func (pq *PriorityQueue) PopItem() any {
+func (pq *PriorityQueue) PopItem() *Item {
 	if pq.Len() == 0 {
 		return nil
 	}

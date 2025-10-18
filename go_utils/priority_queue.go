@@ -13,7 +13,7 @@ const (
 
 type Item struct {
 	Value    any
-	Priority any
+	Priority int
 	index    int
 }
 
@@ -66,7 +66,7 @@ func (pq *PriorityQueue) PushItem(value any, priority int) {
 }
 
 func (pq *PriorityQueue) PopItem() any {
-	if len(pq) == 0 {
+	if pq.Len() == 0 {
 		return nil
 	}
 	return heap.Pop(pq).(*Item)

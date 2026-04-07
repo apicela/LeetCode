@@ -1,15 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Solution {
+class StringEncodeAndDecode {
 
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        List<String> entry = new ArrayList<>(List.of("Hello", "World"));
-        String decoded = sol.encode(entry);
-        System.out.println(decoded);
-        sol.decode(decoded);
-    }
 
     public String encode(List<String> strs) {
         StringBuilder sb = new StringBuilder();
